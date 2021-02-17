@@ -1,10 +1,6 @@
 <template>
   <div id="app">
     <nprogress-container style="z-index: 99;"></nprogress-container>
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
     <router-view/>
   </div>
 </template>
@@ -38,11 +34,15 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
+@font-face {
+  font-family: GoogleSans;
+  src: url('./assets/fonts/GoogleSans/GoogleSansTTF/GoogleSans-Regular.ttf');
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: GoogleSans;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
 }
 

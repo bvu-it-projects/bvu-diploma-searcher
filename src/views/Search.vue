@@ -1,18 +1,23 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+    <a-form>
+      <a-form-item></a-form-item>
+    </a-form>
+    <a-button type="primary">Tra cứu</a-button>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
+import Vue from 'vue';
+import {
+  Button, Calendar, Input,
+} from 'ant-design-vue';
 
-@Component({
-  components: {
-    HelloWorld,
-  },
-})
-export default class Home extends Vue {}
+Vue
+  .use(Button)
+  .use(Calendar)
+  .use(Input);
+
+export default Vue.extend({
+});
 </script>
