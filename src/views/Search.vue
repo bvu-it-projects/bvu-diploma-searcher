@@ -10,11 +10,12 @@
 <script lang="ts">
 import Vue from 'vue';
 import {
-  Button, Calendar, Input,
+  Button, Calendar, Input, Form,
 } from 'ant-design-vue';
 
 Vue
   .use(Button)
+  .use(Form)
   .use(Calendar)
   .use(Input);
 

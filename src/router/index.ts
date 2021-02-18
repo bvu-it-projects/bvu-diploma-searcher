@@ -8,36 +8,46 @@ const routes: Array<RouteConfig> = [
   {
     path: '/',
     name: 'Search',
-    component: () => import('../views/Search.vue'),
+    component: () => import('../views/Admin.vue'),
     meta: {
       authorize: [],
     },
   },
   {
-    path: '/dashboard',
-    name: 'Dashboard',
-    component: () => import('../views/Dashboard.vue'),
+    path: '/admin',
+    name: 'Admin',
+    component: () => import('../views/Admin.vue'),
     meta: {
       authorize: [],
     },
-  },
-  {
-    path: '/profile',
-    name: 'Profile',
-    component: () => import('../views/Profile.vue'),
-    meta: {
-      authorize: [],
-    },
-  },
-  {
-    path: '/users',
-    name: 'Users',
-    component: () => import('../views/Users.vue'),
-    meta: {
-      authorize: [
-        'super-admin',
-      ],
-    },
+    children: [
+      {
+        path: '/dashboard',
+        name: 'Dashboard',
+        component: () => import('../views/Admin/Dashboard.vue'),
+        meta: {
+          authorize: [],
+        },
+      },
+      {
+        path: '/profile',
+        name: 'Profile',
+        component: () => import('../views/Admin/Profile.vue'),
+        meta: {
+          authorize: [],
+        },
+      },
+      {
+        path: '/users',
+        name: 'Users',
+        component: () => import('../views/Admin/Users.vue'),
+        meta: {
+          authorize: [
+            'super-admin',
+          ],
+        },
+      },
+    ],
   },
   {
     path: '/login',
@@ -68,7 +78,7 @@ router.beforeEach(async (to, from, next) => {
     next('/404');
   } else {
     next();
-    store.commit('sidebar/changeRoute', to.path);
+    // store.commit('sidebar/changeRoute', to.path);
   }
 });
 
@@ -76,7 +86,7 @@ router.beforeEach(async (to, from, next) => {
 // redirect to login page if not logged in and trying to access a restricted page
 router.beforeEach(async (to, from, next) => {
   const currentUser = await store.dispatch('auth/getCurrentUser');
-  // console.log('currentUser:', currentUser);
+  console.log('currentUser:', currentUser);
 
   if (to.meta.authorize) {
     if (!currentUser) {
