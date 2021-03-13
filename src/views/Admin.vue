@@ -22,9 +22,9 @@ export default Vue.extend({
   methods: {
     logout() {
       firebase.auth().signOut().then(() => {
-        this.$router.push('/');
+        window.location.href = '/';
       });
-    }
+    },
   },
 });
 </script>

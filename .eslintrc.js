@@ -12,6 +12,8 @@ module.exports = {
     ecmaVersion: 2020,
   },
   rules: {
+    'eqeqeq': 0,
+    'no-irregular-whitespace': 0,
     '@typescript-eslint/camelcase': 'off',
     'linebreak-style': 0,
     'no-nested-ternary': "off",

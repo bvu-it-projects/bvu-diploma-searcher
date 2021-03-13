@@ -8,7 +8,14 @@ import { initializeFirebaseApp } from './services/firebase/firebase';
 
 initializeFirebaseApp();
 Vue.config.productionTip = false;
+
 const nprogress = new NProgress();
+nprogress.configure({
+  trickleSpeed: 200,
+  showSpinner: false,
+  easing: 'ease',
+  speed: 640,
+});
 
 new Vue({
   nprogress,

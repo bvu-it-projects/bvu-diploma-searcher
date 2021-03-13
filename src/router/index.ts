@@ -8,9 +8,10 @@ const routes: Array<RouteConfig> = [
   {
     path: '/',
     name: 'Search',
-    component: () => import('../views/Admin.vue'),
+    component: () => import('../views/Search.vue'),
     meta: {
-      authorize: [],
+      title: 'Tra cứu Văn bằng',
+      // authorize: [],
     },
   },
   {
@@ -18,6 +19,7 @@ const routes: Array<RouteConfig> = [
     name: 'Admin',
     component: () => import('../views/Admin.vue'),
     meta: {
+      title: 'Admin',
       authorize: [],
     },
     children: [
@@ -26,6 +28,7 @@ const routes: Array<RouteConfig> = [
         name: 'Dashboard',
         component: () => import('../views/Admin/Dashboard.vue'),
         meta: {
+          title: 'Dashboard',
           authorize: [],
         },
       },
@@ -34,6 +37,7 @@ const routes: Array<RouteConfig> = [
         name: 'Profile',
         component: () => import('../views/Admin/Profile.vue'),
         meta: {
+          title: 'Profile',
           authorize: [],
         },
       },
@@ -42,9 +46,8 @@ const routes: Array<RouteConfig> = [
         name: 'Users',
         component: () => import('../views/Admin/Users.vue'),
         meta: {
-          authorize: [
-            'super-admin',
-          ],
+          title: 'Users',
+          authorize: [],
         },
       },
     ],
@@ -53,16 +56,25 @@ const routes: Array<RouteConfig> = [
     path: '/login',
     name: 'Login',
     component: () => import('../views/Login.vue'),
+    meta: {
+      title: 'Login',
+    },
   },
   {
     path: '/404',
     name: 'NotFound',
     component: () => import('../views/404.vue'),
+    meta: {
+      title: 'Page not found',
+    },
   },
   {
     path: '/403',
     name: 'NotAuthorized',
     component: () => import('../views/403.vue'),
+    meta: {
+      title: 'Not authorised',
+    },
   },
 ];
 
@@ -77,8 +89,8 @@ router.beforeEach(async (to, from, next) => {
   if (!to.matched.length) {
     next('/404');
   } else {
+    document.title = `BVU Diploma - ${to.meta.title ?? ''}`;
     next();
-    // store.commit('sidebar/changeRoute', to.path);
   }
 });
 
@@ -98,15 +110,13 @@ router.beforeEach(async (to, from, next) => {
       // role not authorised so redirect to 403 page
       return next({ path: '/403' });
     } */
-  } else if (to.path === '/login' && currentUser) { // redirect logged-in user to the index page
+  } else if (to.path === '/login' && currentUser) {
+    // redirect logged-in user to the admin page
     // console.log('to:', to.path, to.path === '/login');
-    return next('/');
+    return next('/admin');
   }
 
-  const returnUrl = to.query.returnUrl ?? '/';
-  store.commit('auth/updateReturnUrl', returnUrl);
-
-  return next(/*  returnUrl as string */);
+  return next();
 });
 
 export default router;

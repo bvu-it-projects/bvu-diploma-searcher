@@ -51,7 +51,6 @@ import {
 } from 'ant-design-vue';
 import ResetPasswordModal from '@/components/ResetPasswordModal.vue';
 import firebase from 'firebase/app';
-import UsersVue from './Users.vue';
 
 Vue
   .use(Icon)
@@ -116,13 +115,34 @@ export default Vue.extend({
               //   .catch((reason) => {
               //     console.log(reason);
               //   });
+
+              this.$router.push(this.$route.query.returnUrl ?? '/admin');
             })
             .catch((reason) => {
-              // alert(reason);
               console.log(reason, reason.message);
+              let errorMessage = '';
+
+              switch (reason.code) {
+                case 'auth/wrong-password':
+                  errorMessage = 'Mật khẩu không đúng !';
+                  break;
+
+                case 'auth/user-not-found':
+                  errorMessage = 'Không tồn tại người dùng với email này !';
+                  break;
+
+                case 'auth/too-many-requests':
+                  errorMessage = 'Đăng nhập sai quá nhiều lần, vui lòng thử lại sau !';
+                  break;
+
+                default:
+                  errorMessage = reason.message;
+                  break;
+              }
+
               notification.error({
                 message: 'BVU Diploma Manager',
-                description: reason,
+                description: errorMessage,
               });
             })
             .finally(() => {
@@ -165,14 +185,10 @@ export default Vue.extend({
     // }
 
     .ant-card {
-      // display: none;
       position: relative;
       z-index: 2;
       box-shadow: 0 13px 24px 0 rgba(128, 128, 128, 0.205);
 
-      // > .ant-card-head {
-      //   display: none;
-      // }
       .ant-card-head-title {
         text-align: center !important;
       }
