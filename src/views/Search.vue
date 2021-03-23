@@ -125,12 +125,12 @@ export default Vue.extend({
           dataIndex: 'dateOfBirth',
           width: '20%',
         },
-        {
+        /* {
           title: 'Xếp loại',
           dataIndex: 'classification',
           width: '20%',
           scopedSlots: { customRender: 'classification' },
-        },
+        }, */
         {
           title: 'Chi tiết',
           dataIndex: 'key',
