@@ -11,7 +11,14 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/Search.vue'),
     meta: {
       title: 'Tra cứu Văn bằng',
-      // authorize: [],
+    },
+  },
+  {
+    path: '/:key',
+    name: 'Details',
+    component: () => import('../views/DiplomaDetails.vue'),
+    meta: {
+      title: 'Chi tiết Văn bằng',
     },
   },
   {
@@ -94,6 +101,7 @@ router.beforeEach(async (to, from, next) => {
   }
 });
 
+/*
 // only listed-routes can be go here (the following)
 // redirect to login page if not logged in and trying to access a restricted page
 router.beforeEach(async (to, from, next) => {
@@ -105,11 +113,11 @@ router.beforeEach(async (to, from, next) => {
       return next({ path: '/login', query: { returnUrl: to.path } });
     }
 
-    // check if route is restricted by role
-    /*  if (authorize.length && !authorize.includes(currentUser.role)) {
+    // check if the route is restricted by role
+    if (authorize.length && !authorize.includes(currentUser.role)) {
       // role not authorised so redirect to 403 page
       return next({ path: '/403' });
-    } */
+    }
   } else if (to.path === '/login' && currentUser) {
     // redirect logged-in user to the admin page
     // console.log('to:', to.path, to.path === '/login');
@@ -117,6 +125,6 @@ router.beforeEach(async (to, from, next) => {
   }
 
   return next();
-});
+}); */
 
 export default router;

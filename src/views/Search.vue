@@ -1,60 +1,49 @@
 <template>
   <div class="home">
-    <a-layout>
-      <a-layout-header id="header" class="inner-page">
-        <!-- <p>BVU Diploma</p> -->
-        <img src="../assets/banner-phongdaotao.jpg" alt="" srcset="">
-      </a-layout-header>
-      <a-layout-content id="content" class="inner-page">
-        <a-alert message="Vui lòng nhập ít nhất một trường thông tin để tra cứu." type="info" show-icon />
-        <br><br><br>
+    <a-alert message="Vui lòng nhập ít nhất một trường thông tin để tra cứu." type="info" show-icon />
+      <br><br><br>
 
-        <a-form-model ref="searchForm" :model="form" :rules="rules" id="search-form">
-          <a-form-model-item label="Mã số sinh viên" prop="maSinhVien">
-            <a-input allow-clear v-model="form.maSinhVien"></a-input>
-          </a-form-model-item>
-          <a-form-model-item label="Số hiệu văn bằng" prop="soHieuVanBang">
-            <a-input allow-clear v-model="form.soHieuVanBang"></a-input>
-          </a-form-model-item>
-          <a-form-model-item label="Họ và tên đệm" prop="hoDem">
-            <a-input allow-clear v-model="form.hoDem"></a-input>
-          </a-form-model-item>
-          <a-form-model-item label="Tên" prop="Ten">
-            <a-input allow-clear v-model="form.Ten"></a-input>
-          </a-form-model-item>
-          <a-form-model-item label="Ngày sinh" prop="ngaySinh">
-            <a-date-picker :inputReadOnly="true"
-              v-model="form.ngaySinh" format="DD-MM-YYYY"
-              :showToday="false" valueFormat="DD-MM-YYYY"></a-date-picker>
-          </a-form-model-item>
-          <a-form-model-item label=" ">
-            <a-button type="danger" :loading="isSearchButtonLoading"
-              @click="onSearchButtonClick" id="btn-search">Tra cứu</a-button>
-          </a-form-model-item>
-        </a-form-model>
+      <a-form-model ref="searchForm" :model="form" :rules="rules" id="search-form">
+        <a-form-model-item label="Mã số sinh viên" prop="maSinhVien">
+          <a-input allow-clear v-model="form.maSinhVien"></a-input>
+        </a-form-model-item>
+        <a-form-model-item label="Số hiệu văn bằng" prop="soHieuVanBang">
+          <a-input allow-clear v-model="form.soHieuVanBang"></a-input>
+        </a-form-model-item>
+        <a-form-model-item label="Họ và tên đệm" prop="hoDem">
+          <a-input allow-clear v-model="form.hoDem"></a-input>
+        </a-form-model-item>
+        <a-form-model-item label="Tên" prop="Ten">
+          <a-input allow-clear v-model="form.Ten"></a-input>
+        </a-form-model-item>
+        <a-form-model-item label="Ngày sinh" prop="ngaySinh">
+          <a-date-picker :inputReadOnly="true"
+            v-model="form.ngaySinh" format="DD-MM-YYYY"
+            :showToday="false" valueFormat="DD-MM-YYYY"></a-date-picker>
+        </a-form-model-item>
+        <a-form-model-item label=" ">
+          <a-button type="danger" :loading="isSearchButtonLoading"
+            @click="onSearchButtonClick" id="btn-search">Tra cứu</a-button>
+        </a-form-model-item>
+      </a-form-model>
 
-        <br><br><br>
-        <a-table bordered
-          :scroll="{ y: 447 }"
-          :columns="columns"
-          :data-source="diplomas"
-          :pagination="pagination"
-          :loading="isTableLoading"
-          @change="handleTableChange">
-            <a slot="key" slot-scope="text" :href="getFullLink(text)"
-              class="btn-view-detail" target="_blank">
-              <a-tag color="green">Xem chi tiết</a-tag>
-            </a>
-            <a-tag slot="classification" slot-scope="rank"
-              :color="getRankTagColor(rank)">
-              {{ rank }}
-            </a-tag>
-        </a-table>
-      </a-layout-content>
-      <a-layout-footer id="footer" class="inner-page">
-        Copyright © 2021 Trường Đại Học Bà Rịa Vũng Tàu - Phòng Đào Tạo
-      </a-layout-footer>
-    </a-layout>
+      <br><br><br>
+      <a-table bordered
+        :scroll="{ y: 447 }"
+        :columns="columns"
+        :data-source="diplomas"
+        :pagination="pagination"
+        :loading="isTableLoading"
+        @change="handleTableChange">
+          <a slot="key" slot-scope="text" :href="getFullLink(text)"
+            class="btn-view-detail" target="_blank">
+            <a-tag color="green">Xem chi tiết</a-tag>
+          </a>
+          <a-tag slot="classification" slot-scope="rank"
+            :color="getRankTagColor(rank)">
+            {{ rank }}
+          </a-tag>
+      </a-table>
   </div>
 </template>
 
@@ -65,7 +54,7 @@ import { BVUSearcher } from '@/services/bvu';
 import {
   Button, Calendar, Input, InputNumber, Alert,
   Form, Layout, FormModel, message, notification,
-  DatePicker, Table, Pagination, Divider, Tag,
+  DatePicker, Table, Divider, Tag,
 } from 'ant-design-vue';
 
 Vue.prototype.$message = message;
@@ -153,7 +142,7 @@ export default Vue.extend({
       }
     },
     getFullLink(key: string) {
-      return `https://sinhvien.bvu.edu.vn/VanBangInfo.aspx?k=${key}`;
+      return `/${key}`;
     },
     isFormStillBlank() {
       return (
@@ -222,6 +211,8 @@ export default Vue.extend({
           }
         })
         .catch((err) => {
+          console.log(err);
+
           notification.error({
             message: err.message,
             description: '',
@@ -238,62 +229,7 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
-  .ant-layout {
-    min-height: 100vh;
-    background: #f8f8f8;
-  }
-
-  .inner-page {
-    width: 950px;
-    margin: auto;
-
-    @media (max-width: 999px) {
-      width: 100%;
-    }
-  }
-
-  #header {
-    background: rgb(247, 252, 255);
-    border: 1px solid rgb(221, 221, 221);
-    border-bottom: none;
-
-    // padding: 20px 50px;
-    padding: 0;
-    font-weight: bolder;
-    font-size: 20px;
-    text-align: center;
-
-    height: 147px;
-    overflow: hidden;
-    // background: url('../assets/banner-phongdaotao.jpg') no-repeat center;
-    // background-size: cover;
-
-    img {
-      // background-size: cover;
-      margin: 0 auto;
-      width: 100%;
-    }
-
-    @media (max-width: 880px) {
-      height: fit-content;
-    }
-  }
-
-  #footer {
-    background: #004a90;
-    color: white;
-    text-align: center;
-  }
-
   #content {
-    @media (max-width: 600px) {
-      padding: 50px;
-    }
-
-    padding: 30px 100px;
-    background: #fff;
-    border: 1px solid rgb(221, 221, 221);
-
     #search-form {
       @media (max-width: 373px) {
         grid-template-columns: 1fr;
@@ -319,10 +255,6 @@ export default Vue.extend({
       #btn-search {
         background: coral;
         border: none;
-
-        // &:focus {
-        //   background-color: coral;
-        // }
       }
     }
 
