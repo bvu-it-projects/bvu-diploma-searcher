@@ -16,11 +16,15 @@
               <div>
                 <img :src="avatarSrc" alt="student id" id="img-avatar" ref="imgAvatar">
               </div>
-              <h4 class="fullName">{{ studentInfo.fullName }}</h4>
+              <!-- <h4 class="fullName">{{ studentInfo.fullName }}</h4> -->
             </div>
 
             <div id="tables-container">
               <table>
+                <tr>
+                  <td>Họ và tên</td>
+                  <td>{{ studentInfo.fullName }}</td>
+                </tr>
                 <tr>
                   <td>Mã sinh viên</td>
                   <td>{{ studentInfo.id }}</td>
@@ -49,13 +53,13 @@
                   <td>Bậc đào tạo</td>
                   <td>{{ studentInfo.educateRank }}</td>
                 </tr>
+              </table>
+              <!--  -->
+              <table>
                 <tr>
                   <td>Loại hình đào tạo</td>
                   <td>{{ studentInfo.educateType }}</td>
                 </tr>
-              </table>
-              <!--  -->
-              <table>
                 <tr>
                   <td>Khoá học</td>
                   <td>{{ studentInfo.learningYear }}</td>
@@ -187,13 +191,20 @@ export default Vue.extend({
       align-items: stretch;
 
       #student-info-box {
-        $space: 95px;
-        text-align: center;
-        padding: 20px;
+        background: url('../assets/diploma-border.png');
+        background-position: center;
+        background-size: contain;
+        background-repeat: no-repeat;
 
-        margin: $space 0;
-        border: 2px solid dodgerblue;
-        border-radius: 20px;
+        $space: 75px;
+        $border-color: #004a90;
+
+        text-align: center;
+        padding: 0 80px 50px;
+
+        margin: 100px 0 30px;
+        // border: 2px solid $border-color;
+        // border-radius: 20px;
 
         #avatar-container {
           transform: translateY(-$space);
@@ -206,7 +217,8 @@ export default Vue.extend({
             overflow: hidden;
             background: white;
             border-radius: 50%;
-            border: 2px dashed dodgerblue;
+            border: 2px solid rgb(212, 212, 0);
+            // border: 2px double $border-color;
 
             #img-avatar {
               width: 100%;
@@ -222,22 +234,32 @@ export default Vue.extend({
             margin-top: 15px;
 
             padding: 10px;
-            border-bottom: 2px dashed dodgerblue;
+            border-bottom: 1px solid $border-color;
           }
         }
 
         #tables-container {
           display: grid;
           grid-template-columns: 1fr 1fr;
-          gap: 25px;
+          gap: 15px;
 
           margin-top: -80px;
 
           table {
             tr {
               td {
-                padding: 10px 10px;
+                padding: 10px 10px 10px 0;
                 text-align: left;
+
+                &:first-of-type {
+                  font-weight: 600;
+                  color: $border-color;
+
+                  position: relative;
+                  // &::after {
+                  //   content: ': ';
+                  // }
+                }
               }
             }
 

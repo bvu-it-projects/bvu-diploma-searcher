@@ -230,6 +230,9 @@ export default Vue.extend({
 
 <style lang="scss">
   #content {
+    @media (max-width: 400px) {
+      padding: 15px !important;
+    }
     #search-form {
       @media (max-width: 373px) {
         grid-template-columns: 1fr;
