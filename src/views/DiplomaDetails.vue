@@ -5,21 +5,26 @@
       <a-result status="404" v-if="isKeyInvalid">
           <template #extra>
             <a-alert message="Liên kết đã hết hạn, vui lòng tra cứu lại !"
-              type="error" show-icon v-if="isKeyInvalid">
+              type="error" show-icon>
             </a-alert>
           </template>
         </a-result>
 
-        <div id="details-boxes" v-if="studentInfo.id">
+        <div id="details-boxes" v-if="!isKeyInvalid">
           <div id="student-info-box">
-            <div id="avatar-container">
-              <div>
-                <img :src="avatarSrc" alt="student id" id="img-avatar" ref="imgAvatar">
+            <div id="student-info-box-header">
+              <div id="avatar-container">
+                <img :src="avatarSrc" alt="student avatar" id="img-avatar" ref="imgAvatar">
               </div>
+            </div>
 
-              <div id="biploma-qrcode-container">
+            <div id="student-info-box-middle">
+              <div id="biploma-qrcode-container" v-show="studentInfo.biplomaReferenceUrl">
                 <canvas id="canvas"></canvas>
-                <img alt="qr_code" id="qrcode">
+                <a :href="studentInfo.biplomaReferenceUrl"
+                  id="qr-link" target="_blank">Chứng thực Blockchain</a>
+                <img alt="qr_code" v-show="false"
+                  id="qrcode" src="../assets/biploma-logo.jpg">
               </div>
             </div>
 
@@ -161,8 +166,22 @@ export default Vue.extend({
   created() {
     BVUSearcher.getDiplomaDetails(this.$route.params.key)
       .then((response) => {
+        this.isKeyInvalid = false;
         this.studentInfo = response.data;
-        console.log(this.studentInfo);
+
+        //  load the QR Code
+        if (this.studentInfo.biplomaReferenceUrl) {
+          new QrCodeWithLogo({
+            canvas: document.getElementById('canvas'),
+            content: this.studentInfo.biplomaReferenceUrl,
+            width: 150,
+            // download: true,
+            // image: document.getElementById('qrcode'),
+            logo: {
+              src: document.getElementById('qrcode').getAttribute('src'),
+            },
+          }).toImage();
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -173,19 +192,7 @@ export default Vue.extend({
       });
   },
   mounted() {
-    //  load the QR Code
-    if (this.studentInfo.biplomaReferenceUrl) {
-      new QrCodeWithLogo({
-        canvas: document.getElementById('canvas'),
-        content: this.studentInfo.biplomaReferenceUrl,
-        width: 380,
-        download: true,
-        image: document.getElementById('qrcode'),
-        logo: {
-          src: process.env.VUE_APP_BIPLOMA_QR_LOGO,
-        },
-      }).toImage();
-    }
+    //
   },
   methods: {
   },
@@ -194,6 +201,7 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
   #diploma-details {
+    padding-top: 50px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -207,36 +215,39 @@ export default Vue.extend({
       align-items: stretch;
 
       #student-info-box {
-        background: url('../assets/diploma-border.png');
+        // background: url('../assets/diploma-border.png');
         background-position: center;
         background-size: contain;
         background-repeat: no-repeat;
 
-        $space: 75px;
-        $border-color: #004a90;
+        $space: 100px;
+        $radius: 10px;
+        $yellow-border-color: #FECD08;
+        $outer-border-color: #004a90;
+        $qrcode-border-color: #9aceff;
 
         text-align: center;
-        padding: 0 80px 50px;
-
         margin: 100px 0 30px;
-        // border: 2px solid $border-color;
-        // border-radius: 20px;
+        border: 2px solid $qrcode-border-color;
+        border-radius: 20px;
 
-        #avatar-container {
-          transform: translateY(-$space);
+        &-header {
+          // transform: translateY(-$space);
+          margin-top: -$space;
+
           display: flex;
           justify-content: space-around;
 
-          div:first-child {
+          #avatar-container {
+            order: 2;
             display: inline-block;
             width: 150px;
-            height: 150px;
+            height: 200px;
 
             overflow: hidden;
             background: white;
-            border-radius: 50%;
-            border: 2px solid rgb(212, 212, 0);
-            // border: 2px double $border-color;
+            border-radius: $radius;
+            border: 2px solid $qrcode-border-color;
 
             #img-avatar {
               width: 100%;
@@ -244,15 +255,60 @@ export default Vue.extend({
               object-fit: cover;
             }
           }
-
-          .fullName {
+          /*.fullName {
             font-weight: bold;
             font-size: 20px;
             color: #004a90;
             margin-top: 15px;
 
             padding: 10px;
-            border-bottom: 1px solid $border-color;
+            border-bottom: 1px solid $outer-border-color;
+          }*/
+        }
+
+        &-middle {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          padding: 20px;
+          margin-top: -$space;
+
+          #biploma-qrcode-container {
+            width: 150px;
+
+            order: 1;
+            overflow: hidden;
+            background: white;
+            border: 2px solid $qrcode-border-color;
+            border-radius: 6px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+
+            #canvas {
+              // width: 100% !important;
+              // height: 100% !important;
+            }
+
+            #qr-link {
+              text-decoration: none;
+              font-size: 12px;
+              padding: 5px;
+
+              width: 100%;
+
+              color:  dodgerblue;
+              background: rgb(226, 244, 255);
+              border-top: 2px solid $qrcode-border-color;
+
+              transition: all .25s ease-in-out;
+              &:hover {
+                background: rgb(255, 253, 234);
+              }
+            }
           }
         }
 
@@ -261,7 +317,8 @@ export default Vue.extend({
           grid-template-columns: 1fr 1fr;
           gap: 15px;
 
-          margin-top: -80px;
+          padding: 20px;
+          border-top: 2px solid $qrcode-border-color;
 
           table {
             tr {
@@ -271,7 +328,7 @@ export default Vue.extend({
 
                 &:first-of-type {
                   font-weight: 600;
-                  color: $border-color;
+                  color: $outer-border-color;
 
                   position: relative;
                   // &::after {

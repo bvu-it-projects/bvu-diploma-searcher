@@ -22,52 +22,6 @@ const routes: Array<RouteConfig> = [
     },
   },
   {
-    path: '/admin',
-    name: 'Admin',
-    component: () => import('../views/Admin.vue'),
-    meta: {
-      title: 'Admin',
-      authorize: [],
-    },
-    children: [
-      {
-        path: '/dashboard',
-        name: 'Dashboard',
-        component: () => import('../views/Admin/Dashboard.vue'),
-        meta: {
-          title: 'Dashboard',
-          authorize: [],
-        },
-      },
-      {
-        path: '/profile',
-        name: 'Profile',
-        component: () => import('../views/Admin/Profile.vue'),
-        meta: {
-          title: 'Profile',
-          authorize: [],
-        },
-      },
-      {
-        path: '/users',
-        name: 'Users',
-        component: () => import('../views/Admin/Users.vue'),
-        meta: {
-          title: 'Users',
-          authorize: [],
-        },
-      },
-    ],
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    component: () => import('../views/Login.vue'),
-    meta: {
-      title: 'Login',
-    },
-  },
-  {
     path: '/404',
     name: 'NotFound',
     component: () => import('../views/404.vue'),
