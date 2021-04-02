@@ -12,7 +12,7 @@ export class BVUSearcher {
   static getDiplomaDetails(key: string) {
     return axios({
       method: 'POST',
-      url: `${process.env.VUE_APP_HOST}/details/${key}`,
+      url: `${process.env.VUE_APP_HOST}/details`,
       data: {
         key,
       },

@@ -16,7 +16,11 @@
               <div>
                 <img :src="avatarSrc" alt="student id" id="img-avatar" ref="imgAvatar">
               </div>
-              <!-- <h4 class="fullName">{{ studentInfo.fullName }}</h4> -->
+
+              <div id="biploma-qrcode-container">
+                <canvas id="canvas"></canvas>
+                <img alt="qr_code" id="qrcode">
+              </div>
             </div>
 
             <div id="tables-container">
@@ -91,7 +95,6 @@
               </table>
             </div>
           </div>
-          <div id="student-doploma-box"></div>
         </div>
     </div>
 </template>
@@ -99,6 +102,7 @@
 <script>
 import Vue from 'vue';
 import { BVUSearcher } from '@/services/bvu';
+import QrCodeWithLogo from 'qrcode-with-logos';
 import {
   Button, Calendar, Input, InputNumber, Alert,
   Form, Layout, FormModel, message, notification,
@@ -158,7 +162,7 @@ export default Vue.extend({
     BVUSearcher.getDiplomaDetails(this.$route.params.key)
       .then((response) => {
         this.studentInfo = response.data;
-        // console.log(response.data);
+        console.log(this.studentInfo);
       })
       .catch((err) => {
         console.log(err);
@@ -169,7 +173,19 @@ export default Vue.extend({
       });
   },
   mounted() {
-    //
+    //  load the QR Code
+    if (this.studentInfo.biplomaReferenceUrl) {
+      new QrCodeWithLogo({
+        canvas: document.getElementById('canvas'),
+        content: this.studentInfo.biplomaReferenceUrl,
+        width: 380,
+        download: true,
+        image: document.getElementById('qrcode'),
+        logo: {
+          src: process.env.VUE_APP_BIPLOMA_QR_LOGO,
+        },
+      }).toImage();
+    }
   },
   methods: {
   },
@@ -208,8 +224,10 @@ export default Vue.extend({
 
         #avatar-container {
           transform: translateY(-$space);
+          display: flex;
+          justify-content: space-around;
 
-          div {
+          div:first-child {
             display: inline-block;
             width: 150px;
             height: 150px;
@@ -271,9 +289,6 @@ export default Vue.extend({
             }
           }
         }
-      }
-      #student-doploma-box {
-        //
       }
     }
   }
