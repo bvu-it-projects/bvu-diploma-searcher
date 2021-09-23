@@ -5,9 +5,12 @@ import router from './router';
 import store from './store';
 import 'ant-design-vue/dist/antd.css';
 import { initializeFirebaseApp } from './services/firebase/firebase';
+import './assets/tailwind.css';
 
 initializeFirebaseApp();
+
 Vue.config.productionTip = false;
+Vue.config.ignoredElements = [/^ion-/];
 
 const nprogress = new NProgress();
 nprogress.configure({

@@ -7,14 +7,14 @@ import Vue from 'vue';
 import QRCode from 'qrcode';
 
 export default Vue.extend({
-    methods: {
-        onLoad() {
-            // QRCode.toDataURL();
-        },
+  methods: {
+    onLoad() {
+      // QRCode.toDataURL();
     },
+  },
 });
 </script>
 
 <style lang="scss" scoped>
-// 
+//
 </style>

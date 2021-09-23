@@ -3,16 +3,17 @@ import 'firebase/analytics';
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: 'AIzaSyCDkasNb3Kk9rNa6ja50nLfkVyGStRWpbY',
-  authDomain: 'diploma-searcher.firebaseapp.com',
-  databaseURL: 'https://diploma-searcher-default-rtdb.firebaseio.com',
-  projectId: 'diploma-searcher',
-  storageBucket: 'diploma-searcher.appspot.com',
-  messagingSenderId: '625287339057',
-  appId: '1:625287339057:web:fb6406c8372773acf0c910',
-  measurementId: 'G-ETD4JFL3SL',
+  apiKey: 'AIzaSyDihc0ObMgwBfe2m4wWxil1x1P3dT0ChwY',
+  authDomain: 'bvu-dormitory.firebaseapp.com',
+  databaseURL: 'https://bvu-dormitory-default-rtdb.asia-southeast1.firebasedatabase.app',
+  projectId: 'bvu-dormitory',
+  storageBucket: 'bvu-dormitory.appspot.com',
+  messagingSenderId: '425901189217',
+  appId: '1:425901189217:web:ac779f91a435b95cb1a220',
+  measurementId: 'G-Y4FH289Z84',
 };
 
 export function initializeFirebaseApp() {
+  // const analytics = getAnalytics(app);
   firebase.initializeApp(firebaseConfig);
 }

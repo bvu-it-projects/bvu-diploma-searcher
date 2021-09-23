@@ -1,30 +1,34 @@
-import store from '@/store';
 import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
+
+import store from '@/store/index';
 
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
   {
     path: '/',
-    name: 'Search',
-    component: () => import('../views/Search.vue'),
+    name: 'Home',
+    component: () => import('../views/Home/index.vue'),
     meta: {
-      title: 'Tra cứu Văn bằng',
+      title: 'Trang chủ',
+      auth: {
+        required: true,
+      },
     },
   },
   {
-    path: '/:key',
-    name: 'Details',
-    component: () => import('../views/DiplomaDetails.vue'),
+    path: '/login',
+    name: 'Login',
+    component: () => import('../views/Login/index.vue'),
     meta: {
-      title: 'Chi tiết Văn bằng',
+      title: 'Đăng nhập',
     },
   },
   {
     path: '/404',
     name: 'NotFound',
-    component: () => import('../views/404.vue'),
+    component: () => import('../views/Errors/404.vue'),
     meta: {
       title: 'Page not found',
     },
@@ -32,7 +36,7 @@ const routes: Array<RouteConfig> = [
   {
     path: '/403',
     name: 'NotAuthorized',
-    component: () => import('../views/403.vue'),
+    component: () => import('../views/Errors/403.vue'),
     meta: {
       title: 'Not authorised',
     },
@@ -50,35 +54,36 @@ router.beforeEach(async (to, from, next) => {
   if (!to.matched.length) {
     next('/404');
   } else {
-    document.title = `BVU Diploma - ${to.meta.title ?? ''}`;
+    document.title = `BVU Dormitory - ${to?.meta?.title ?? ''}`;
     next();
   }
 });
 
-/*
 // only listed-routes can be go here (the following)
 // redirect to login page if not logged in and trying to access a restricted page
 router.beforeEach(async (to, from, next) => {
   const currentUser = await store.dispatch('auth/getCurrentUser');
   console.log('currentUser:', currentUser);
 
-  if (to.meta.authorize) {
+  // if the route requires logged-in
+  if (to?.meta?.auth && to.meta.auth.required) {
+    // if no user is logged-in => goto the login page with a returnUrl
     if (!currentUser) {
       return next({ path: '/login', query: { returnUrl: to.path } });
     }
 
-    // check if the route is restricted by role
-    if (authorize.length && !authorize.includes(currentUser.role)) {
-      // role not authorised so redirect to 403 page
-      return next({ path: '/403' });
-    }
+    // user is logged-in check if the route is restricted by role
+    // if (to.meta.auth.roles.length && !to.meta.auth.roles.includes(currentUser.role)) {
+    //   // role not authorised so redirect to the 403 page
+    //   return next({ path: '/403' });
+    // }
   } else if (to.path === '/login' && currentUser) {
     // redirect logged-in user to the admin page
     // console.log('to:', to.path, to.path === '/login');
-    return next('/admin');
+    return next('/');
   }
 
   return next();
-}); */
+});
 
 export default router;

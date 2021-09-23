@@ -1,5 +1,5 @@
 {
-  "name": "bvu-diploma-searcher",
+  "name": "bvu-dormitory-web-vuejs",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -8,12 +8,17 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@tailwindcss/postcss7-compat": "^2.0.2",
     "ant-design-vue": "^1.7.2",
+    "autoprefixer": "^9",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "firebase": "^8.2.7",
+    "firebaseui": "^5.0.0",
     "moment": "^2.29.1",
+    "postcss": "^7",
     "qrcode-with-logos": "^1.0.3",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
     "vue-nprogress": "^0.2.0",
@@ -39,6 +44,7 @@
     "node-sass": "^4.12.0",
     "sass-loader": "^8.0.2",
     "typescript": "~3.9.3",
+    "vue-cli-plugin-tailwind": "~2.0.6",
     "vue-template-compiler": "^2.6.11"
   }
 }

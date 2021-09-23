@@ -4,6 +4,7 @@
     "module": "esnext",
     "allowJs": true,
     "strict": true,
+    "skipDefaultLibCheck": true,
     "jsx": "preserve",
     "importHelpers": true,
     "moduleResolution": "node",
